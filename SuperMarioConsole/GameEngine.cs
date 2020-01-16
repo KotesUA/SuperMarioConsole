@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace SuperMarioConsole
 {
     static class GameEngine
     {
+        [DllImport("user32.dll")]
+        static extern short GetKeyState(int key);
+
         const int ConsoleWidth = 120;
         const int ConsoleHeight = 30;
 
@@ -69,6 +74,7 @@ namespace SuperMarioConsole
         {
             while (true)
             {
+                Thread.Sleep(10);
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey();
@@ -84,8 +90,29 @@ namespace SuperMarioConsole
                     {
                         player.Jump();
                     }
-                    else break;
                 }
+                player.Drop();
+            }
+        }
+
+        public static void ExecuteRightLeft(Player player)
+        {
+            while (true)
+            {
+                Thread.Sleep(10);
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo keyInfo = Console.ReadKey();
+                    if (keyInfo.Key == ConsoleKey.A || keyInfo.Key == ConsoleKey.LeftArrow)
+                    {
+                        player.MoveLeft();
+                    }
+                    if (keyInfo.Key == ConsoleKey.D || keyInfo.Key == ConsoleKey.RightArrow)
+                    {
+                        player.MoveRight();
+                    }
+                }
+                else break;
             }
         }
 
