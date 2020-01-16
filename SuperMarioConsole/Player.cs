@@ -35,7 +35,7 @@ namespace SuperMarioConsole
                 && positionY < 26)
             {
                 DrawEngine.RemovePlayerAt(this);
-                positionY--;
+                positionY++;
                 DrawEngine.DrawPlayer(this);
             }
         }
@@ -51,7 +51,7 @@ namespace SuperMarioConsole
                     && positionY > 1)
                 {
                     DrawEngine.RemovePlayerAt(this);
-                    positionY++;
+                    positionY--;
                     DrawEngine.DrawPlayer(this);
                 }
                 if (Console.KeyAvailable)
