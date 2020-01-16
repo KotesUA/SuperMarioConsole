@@ -42,9 +42,9 @@ namespace SuperMarioConsole
 
         public static void DrawPlayer(Player player)
         {
-            PrintAtPosition(player.positionX - 1, player.positionY - 1, player.playerImage[0]);
-            PrintAtPosition(player.positionX - 1, player.positionY, player.playerImage[1]);
-            PrintAtPosition(player.positionX - 1, player.positionY + 1, player.playerImage[2]);
+            PrintAtPosition(player.positionX - 1, player.positionY - 1, " 0 ");
+            PrintAtPosition(player.positionX - 1, player.positionY, "/|\\");
+            PrintAtPosition(player.positionX - 1, player.positionY + 1, "/ \\");
         }
 
         public static void RemovePlayerAt(Player player)

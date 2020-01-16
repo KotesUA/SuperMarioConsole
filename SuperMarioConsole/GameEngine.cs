@@ -25,7 +25,6 @@ namespace SuperMarioConsole
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey();
-
                     if (keyInfo.Key == ConsoleKey.W || keyInfo.Key == ConsoleKey.UpArrow)
                     {
                         if (MenuItemSelected > 0)
@@ -34,9 +33,9 @@ namespace SuperMarioConsole
                             DrawEngine.DrawMenu(MenuItemSelected);
                         }
                     }
-                    if (keyInfo.Key == ConsoleKey.D || keyInfo.Key == ConsoleKey.DownArrow)
+                    if (keyInfo.Key == ConsoleKey.S || keyInfo.Key == ConsoleKey.DownArrow)
                     {
-                        if (MenuItemSelected < 2)
+                        if(MenuItemSelected < 2)
                         {
                             MenuItemSelected++;
                             DrawEngine.DrawMenu(MenuItemSelected);
@@ -48,7 +47,6 @@ namespace SuperMarioConsole
                     }
                 }
             }
-
             switch (MenuItemSelected)
             {
                 case 0:
@@ -62,7 +60,7 @@ namespace SuperMarioConsole
                     break;
             }
         }
-
+               
         public void Game()
         {
             Player player = new Player();
@@ -74,20 +72,19 @@ namespace SuperMarioConsole
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey();
-
-                    if (keyInfo.Key == ConsoleKey.LeftArrow)
+                    if (keyInfo.Key == ConsoleKey.A || keyInfo.Key == ConsoleKey.LeftArrow)
                     {
                         if (player.positionX > 1)
                         {
                             if (Map.mapArray[player.positionY][player.positionX - 1] == ' ' 
-                                && Map.mapArray[player.positionY - 1][player.positionX - 1] == ' ' 
+                                && Map.mapArray[player.positionY - 1][player.positionX - 1] == ' '
                                 && Map.mapArray[player.positionY + 1][player.positionX - 1] == ' ')
                             {
                                 player.MoveLeft();
                             }
                         }
                     }
-                    if (keyInfo.Key == ConsoleKey.RightArrow)
+                    if (keyInfo.Key == ConsoleKey.D || keyInfo.Key == ConsoleKey.RightArrow)
                     {
                         if (player.positionX < 119)
                         {
@@ -99,12 +96,11 @@ namespace SuperMarioConsole
                             }
                         }
                     }
-                    if (keyInfo.Key == ConsoleKey.UpArrow)
+                    if (keyInfo.Key == ConsoleKey.W || keyInfo.Key == ConsoleKey.UpArrow)
                     {
-                        //TODO JUMP
+                        player.Jump();
                     }
                 }
-
             }
         }
 
