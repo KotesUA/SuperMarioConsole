@@ -68,6 +68,44 @@ namespace SuperMarioConsole
             Player player = new Player();
             DrawEngine.DrawMap();
             DrawEngine.DrawPlayer(player);
+
+            while (true)
+            {
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo keyInfo = Console.ReadKey();
+
+                    if (keyInfo.Key == ConsoleKey.LeftArrow)
+                    {
+                        if (player.positionX > 1)
+                        {
+                            if (Map.mapArray[player.positionY][player.positionX - 1] == ' ' 
+                                && Map.mapArray[player.positionY - 1][player.positionX - 1] == ' ' 
+                                && Map.mapArray[player.positionY + 1][player.positionX - 1] == ' ')
+                            {
+                                player.MoveLeft();
+                            }
+                        }
+                    }
+                    if (keyInfo.Key == ConsoleKey.RightArrow)
+                    {
+                        if (player.positionX < 119)
+                        {
+                            if (Map.mapArray[player.positionY][player.positionX + 1] == ' '
+                                && Map.mapArray[player.positionY - 1][player.positionX + 1] == ' '
+                                && Map.mapArray[player.positionY + 1][player.positionX + 1] == ' ')
+                            {
+                                player.MoveRight();
+                            }
+                        }
+                    }
+                    if (keyInfo.Key == ConsoleKey.UpArrow)
+                    {
+                        //TODO JUMP
+                    }
+                }
+
+            }
         }
 
         public void Settings()

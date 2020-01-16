@@ -46,5 +46,12 @@ namespace SuperMarioConsole
             PrintAtPosition(player.positionX - 1, player.positionY, player.playerImage[1]);
             PrintAtPosition(player.positionX - 1, player.positionY + 1, player.playerImage[2]);
         }
+
+        public static void RemovePlayerAt(Player player)
+        {
+            PrintAtPosition(player.positionX - 1, player.positionY - 1, "   ");
+            PrintAtPosition(player.positionX - 1, player.positionY, "   ");
+            PrintAtPosition(player.positionX - 1, player.positionY + 1, "   ");
+        }
     }
 }

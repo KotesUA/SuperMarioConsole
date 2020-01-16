@@ -8,11 +8,25 @@
 
         public Player()
         {
-            positionX = 60;
-            positionY = 20;
+            positionX = 10;
+            positionY = 27;
             playerImage = new string[]{" 0 ",
                                        "/|\\",
                                        "/ \\"};
+        }
+
+        public void MoveLeft()
+        {
+            DrawEngine.RemovePlayerAt(this);
+            positionX--;
+            DrawEngine.DrawPlayer(this);
+        }
+
+        public void MoveRight()
+        {
+            DrawEngine.RemovePlayerAt(this);
+            positionX++;
+            DrawEngine.DrawPlayer(this);
         }
     }
 }
