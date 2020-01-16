@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace SuperMarioConsole
 {
@@ -15,28 +16,54 @@ namespace SuperMarioConsole
 
         public void MoveLeft()
         {
-            DrawEngine.RemovePlayerAt(this);
-            positionX--;
-            DrawEngine.DrawPlayer(this);
+            if (positionX > 1)
+            {
+                if (Map.mapArray[positionY][positionX - 1] == ' '
+                    && Map.mapArray[positionY - 1][positionX - 1] == ' '
+                    && Map.mapArray[positionY + 1][positionX - 1] == ' ')
+                {
+                    DrawEngine.RemovePlayerAt(this);
+                    positionX--;
+                    DrawEngine.DrawPlayer(this);
+
+                    Drop();
+                }
+            }
         }
 
         public void MoveRight()
         {
-            DrawEngine.RemovePlayerAt(this);
-            positionX++;
-            DrawEngine.DrawPlayer(this);
+            if (positionX < 119)
+            {
+                if (Map.mapArray[positionY][positionX + 1] == ' '
+                    && Map.mapArray[positionY - 1][positionX + 1] == ' '
+                    && Map.mapArray[positionY + 1][positionX + 1] == ' ')
+                {
+                    DrawEngine.RemovePlayerAt(this);
+                    positionX++;
+                    DrawEngine.DrawPlayer(this);
+
+                    Drop();
+                }
+            }
         }
 
         public void Drop()
         {
-            if (Map.mapArray[positionX - 1][positionY - 1] == ' '
-                && Map.mapArray[positionX][positionY - 1] == ' '
-                && Map.mapArray[positionX][positionY - 1] == ' '
-                && positionY < 26)
+            while (true)
             {
-                DrawEngine.RemovePlayerAt(this);
-                positionY++;
-                DrawEngine.DrawPlayer(this);
+                if (positionY < 26)
+                {
+                    if (Map.mapArray[positionY + 2][positionX - 1] == ' '
+                        && Map.mapArray[positionY + 2][positionX] == ' '
+                        && Map.mapArray[positionY + 2][positionX + 1] == ' ')
+                    {
+                        DrawEngine.RemovePlayerAt(this);
+                        positionY++;
+                        DrawEngine.DrawPlayer(this);
+                    }
+                }
+                else break;
             }
         }
 
@@ -45,43 +72,17 @@ namespace SuperMarioConsole
             int count = 0;
             while (count < 5)
             {
-                if (Map.mapArray[positionX - 1][positionY + 1] == ' '
-                    && Map.mapArray[positionX][positionY + 1] == ' '
-                    && Map.mapArray[positionX][positionY + 1] == ' '
+                if (Map.mapArray[positionY - 2][positionX - 1] == ' '
+                    && Map.mapArray[positionY - 2][positionX] == ' '
+                    && Map.mapArray[positionY - 2][positionX + 1] == ' '
                     && positionY > 1)
                 {
                     DrawEngine.RemovePlayerAt(this);
                     positionY--;
                     DrawEngine.DrawPlayer(this);
                 }
-                if (Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo keyInfo = Console.ReadKey();
-                    if (keyInfo.Key == ConsoleKey.A || keyInfo.Key == ConsoleKey.LeftArrow)
-                    {
-                        if (positionX > 1)
-                        {
-                            if (Map.mapArray[positionY][positionX - 1] == ' '
-                                && Map.mapArray[positionY - 1][positionX - 1] == ' '
-                                && Map.mapArray[positionY + 1][positionX - 1] == ' ')
-                            {
-                                MoveLeft();
-                            }
-                        }
-                    }
-                    if (keyInfo.Key == ConsoleKey.D || keyInfo.Key == ConsoleKey.RightArrow)
-                    {
-                        if (positionX < 119)
-                        {
-                            if (Map.mapArray[positionY][positionX + 1] == ' '
-                                && Map.mapArray[positionY - 1][positionX + 1] == ' '
-                                && Map.mapArray[positionY + 1][positionX + 1] == ' ')
-                            {
-                                MoveRight();
-                            }
-                        }
-                    }
-                }
+                Thread.Sleep(10);
+                GameEngine.ExecuteControls(this);
                 count++;
             }
             Drop();

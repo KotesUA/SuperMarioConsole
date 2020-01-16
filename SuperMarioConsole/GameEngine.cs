@@ -6,19 +6,14 @@ using System.Threading.Tasks;
 
 namespace SuperMarioConsole
 {
-    class GameEngine
+    static class GameEngine
     {
-        int MenuItemSelected { get; set; }
         const int ConsoleWidth = 120;
         const int ConsoleHeight = 30;
 
-        public GameEngine()
+        public static void Menu()
         {
-            MenuItemSelected = 0;
-        }
-
-        public void Menu()
-        {
+            int MenuItemSelected = 0;
             DrawEngine.DrawMenu(MenuItemSelected);
             while (true)
             {
@@ -61,12 +56,17 @@ namespace SuperMarioConsole
             }
         }
                
-        public void Game()
+        public static void Game()
         {
             Player player = new Player();
             DrawEngine.DrawMap();
             DrawEngine.DrawPlayer(player);
 
+            ExecuteControls(player);
+        }
+
+        public static void ExecuteControls(Player player)
+        {
             while (true)
             {
                 if (Console.KeyAvailable)
@@ -74,42 +74,27 @@ namespace SuperMarioConsole
                     ConsoleKeyInfo keyInfo = Console.ReadKey();
                     if (keyInfo.Key == ConsoleKey.A || keyInfo.Key == ConsoleKey.LeftArrow)
                     {
-                        if (player.positionX > 1)
-                        {
-                            if (Map.mapArray[player.positionY][player.positionX - 1] == ' ' 
-                                && Map.mapArray[player.positionY - 1][player.positionX - 1] == ' '
-                                && Map.mapArray[player.positionY + 1][player.positionX - 1] == ' ')
-                            {
-                                player.MoveLeft();
-                            }
-                        }
+                        player.MoveLeft();
                     }
                     if (keyInfo.Key == ConsoleKey.D || keyInfo.Key == ConsoleKey.RightArrow)
                     {
-                        if (player.positionX < 119)
-                        {
-                            if (Map.mapArray[player.positionY][player.positionX + 1] == ' '
-                                && Map.mapArray[player.positionY - 1][player.positionX + 1] == ' '
-                                && Map.mapArray[player.positionY + 1][player.positionX + 1] == ' ')
-                            {
-                                player.MoveRight();
-                            }
-                        }
+                        player.MoveRight();
                     }
                     if (keyInfo.Key == ConsoleKey.W || keyInfo.Key == ConsoleKey.UpArrow)
                     {
                         player.Jump();
                     }
+                    else break;
                 }
             }
         }
 
-        public void Settings()
+        public static void Settings()
         {
             //TODO
         }
 
-        public void Exit()
+        public static void Exit()
         {
             Environment.Exit(0);
         }
