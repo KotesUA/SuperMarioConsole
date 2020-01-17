@@ -16,6 +16,13 @@ namespace SuperMarioConsole
         const int ConsoleWidth = 120;
         const int ConsoleHeight = 30;
 
+        const int left = 0x25;
+        const int up = 0x26;
+        const int right = 0x27;
+        const int keyPressed = 0x8000;
+
+        private static int delay = 10;
+
         public static void Menu()
         {
             int MenuItemSelected = 0;
@@ -74,51 +81,65 @@ namespace SuperMarioConsole
         {
             while (true)
             {
-                Thread.Sleep(10);
-                if (Console.KeyAvailable)
+                if ((GetKeyState(left) & keyPressed) > 0)
                 {
-                    ConsoleKeyInfo keyInfo = Console.ReadKey();
-                    if (keyInfo.Key == ConsoleKey.A || keyInfo.Key == ConsoleKey.LeftArrow)
-                    {
-                        player.MoveLeft();
-                    }
-                    if (keyInfo.Key == ConsoleKey.D || keyInfo.Key == ConsoleKey.RightArrow)
-                    {
-                        player.MoveRight();
-                    }
-                    if (keyInfo.Key == ConsoleKey.W || keyInfo.Key == ConsoleKey.UpArrow)
-                    {
-                        player.Jump();
-                    }
+                    player.MoveLeft();
+                    Thread.Sleep(20);
                 }
-                player.Drop();
+                if ((GetKeyState(right) & keyPressed) > 0)
+                {
+                    player.MoveRight();
+                    Thread.Sleep(20);
+                }
+                if ((GetKeyState(up) & keyPressed) > 0)
+                {
+                    player.Jump();
+                    Thread.Sleep(20);
+                }
             }
         }
 
-        public static void ExecuteRightLeft(Player player)
+        public static void ExecuteControlsOnJump(Player player)
         {
-            while (true)
+            if ((GetKeyState(left) & keyPressed) > 0)
             {
-                Thread.Sleep(10);
-                if (Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo keyInfo = Console.ReadKey();
-                    if (keyInfo.Key == ConsoleKey.A || keyInfo.Key == ConsoleKey.LeftArrow)
-                    {
-                        player.MoveLeft();
-                    }
-                    if (keyInfo.Key == ConsoleKey.D || keyInfo.Key == ConsoleKey.RightArrow)
-                    {
-                        player.MoveRight();
-                    }
-                }
-                else break;
+                player.MoveLeft();
+                Thread.Sleep(20);
             }
+                
+            if ((GetKeyState(right) & keyPressed) > 0)
+            {
+                player.MoveRight();
+                Thread.Sleep(20);
+            }
+        }
+
+        public static void GreetingA()
+        {
+            Console.Clear();
+            DrawEngine.PrintAtPosition(55, 15, "Congradulations!");
+            DrawEngine.PrintAtPosition(50, 17, "You have earned A!");
+            Thread.Sleep(2000);
+            Menu();
+        }
+
+        public static void GreetingE()
+        {
+            Console.Clear();
+            DrawEngine.PrintAtPosition(55, 15, "We are sorry!");
+            DrawEngine.PrintAtPosition(50, 17, "You have earned E!");
+            Thread.Sleep(2000);
+            Menu();
         }
 
         public static void Settings()
         {
-            //TODO
+            Console.Clear();
+            Console.Write("Please, enter game delay in ms: ");
+            delay = int.Parse(Console.ReadLine());
+            Console.Write("Delay was changed to " + delay + " ms");
+            Thread.Sleep(100);
+            Menu();
         }
 
         public static void Exit()

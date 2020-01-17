@@ -7,28 +7,25 @@ namespace SuperMarioConsole
     {
         public int positionX { get; set; }
         public int positionY { get; set; }
-        private bool Dead;
+        private bool midAir = false;
 
         public Player()
         {
-            positionX = 10;
+            positionX = 5;
             positionY = 27;
-            Dead = false;
-        }
-
-        private void CheckDead()
-        {
-            if(Map.mapArray[positionY + 2][positionX - 1] == '*'
-                    || Map.mapArray[positionY + 2][positionX + 1] == '*')
-            {
-                Dead = true;
-            }
         }
 
         public void MoveLeft()
         {
             if (positionX > 1)
             {
+                if (Map.mapArray[positionY][positionX - 2] == ' '
+                    && Map.mapArray[positionY + 1][positionX - 2] == '#')
+                {
+                    DrawEngine.RemovePlayerAt(this);
+                    positionY--;
+                    DrawEngine.DrawPlayer(this);
+                }
                 if (Map.mapArray[positionY][positionX - 2] == ' '
                     && Map.mapArray[positionY - 1][positionX - 2] == ' '
                     && Map.mapArray[positionY + 1][positionX - 2] == ' ')
@@ -37,13 +34,26 @@ namespace SuperMarioConsole
                     positionX--;
                     DrawEngine.DrawPlayer(this);
                 }
+                if (!midAir)
+                {
+                    Drop();
+                }
             }
+            SearchA();
+            SearchE();
         }
 
         public void MoveRight()
         {
             if (positionX < 118)
             {
+                if (Map.mapArray[positionY][positionX + 2] == ' '
+                    && Map.mapArray[positionY + 1][positionX + 2] == '#')
+                {
+                    DrawEngine.RemovePlayerAt(this);
+                    positionY--;
+                    DrawEngine.DrawPlayer(this);
+                }
                 if (Map.mapArray[positionY][positionX + 2] == ' '
                     && Map.mapArray[positionY - 1][positionX + 2] == ' '
                     && Map.mapArray[positionY + 1][positionX + 2] == ' ')
@@ -52,7 +62,13 @@ namespace SuperMarioConsole
                     positionX++;
                     DrawEngine.DrawPlayer(this);
                 }
+                if (!midAir)
+                {
+                    Drop();
+                }
             }
+            SearchA();
+            SearchE();
         }
 
         public void Drop()
@@ -60,16 +76,13 @@ namespace SuperMarioConsole
             while (true)
             {
                 Thread.Sleep(20);
-                if (positionY < 27)
+                if (Map.mapArray[positionY + 2][positionX - 1] == ' '
+                    && Map.mapArray[positionY + 2][positionX] == ' '
+                    && Map.mapArray[positionY + 2][positionX + 1] == ' ')
                 {
-                    if (Map.mapArray[positionY + 2][positionX - 1] == ' '
-                        && Map.mapArray[positionY + 2][positionX] == ' '
-                        && Map.mapArray[positionY + 2][positionX + 1] == ' ')
-                    {
-                        DrawEngine.RemovePlayerAt(this);
-                        positionY++;
-                        DrawEngine.DrawPlayer(this);
-                    }
+                    DrawEngine.RemovePlayerAt(this);
+                    positionY++;
+                    DrawEngine.DrawPlayer(this);
                 }
                 else break;
             }
@@ -77,12 +90,11 @@ namespace SuperMarioConsole
 
         public void Jump()
         {
+            midAir = true;
             int count = 0;
             while (count < 5)
             {
-                Thread.Sleep(200);
-
-                GameEngine.ExecuteRightLeft(this);
+                Thread.Sleep(20);
                 if (positionY > 1)
                 {
                     if (Map.mapArray[positionY - 2][positionX - 1] == ' '
@@ -95,6 +107,37 @@ namespace SuperMarioConsole
                     }
                     count++;
                 }
+                GameEngine.ExecuteControlsOnJump(this);
+                GameEngine.ExecuteControlsOnJump(this);
+                GameEngine.ExecuteControlsOnJump(this);
+            }
+            Drop();
+        }
+
+        public void SearchA()
+        {
+            if (Map.mapArray[positionY][positionX - 2] == 'A'
+                    || Map.mapArray[positionY - 1][positionX - 2] == 'A'
+                    || Map.mapArray[positionY + 1][positionX - 2] == 'A'
+                    || Map.mapArray[positionY][positionX + 2] == 'A'
+                    || Map.mapArray[positionY - 1][positionX + 2] == 'A'
+                    || Map.mapArray[positionY + 1][positionX + 2] == 'A')
+            {
+                GameEngine.GreetingA();
+            }
+        }
+        
+
+        public void SearchE()
+        {
+            if (Map.mapArray[positionY][positionX - 2] == 'E'
+                    || Map.mapArray[positionY - 1][positionX - 2] == 'E'
+                    || Map.mapArray[positionY + 1][positionX - 2] == 'E'
+                    || Map.mapArray[positionY][positionX + 2] == 'E'
+                    || Map.mapArray[positionY - 1][positionX + 2] == 'E'
+                    || Map.mapArray[positionY + 1][positionX + 2] == 'E')
+            {
+                GameEngine.GreetingE();
             }
         }
     }
