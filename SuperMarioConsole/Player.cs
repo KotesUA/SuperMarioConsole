@@ -108,10 +108,9 @@ namespace SuperMarioConsole
                     count++;
                 }
                 GameEngine.ExecuteControlsOnJump(this);
-                GameEngine.ExecuteControlsOnJump(this);
-                GameEngine.ExecuteControlsOnJump(this);
             }
             Drop();
+            midAir = false;
         }
 
         public void SearchA()

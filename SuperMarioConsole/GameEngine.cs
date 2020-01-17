@@ -101,16 +101,19 @@ namespace SuperMarioConsole
 
         public static void ExecuteControlsOnJump(Player player)
         {
-            if ((GetKeyState(left) & keyPressed) > 0)
+            for (int i = 0; i < 6; i++)
             {
-                player.MoveLeft();
-                Thread.Sleep(20);
-            }
-                
-            if ((GetKeyState(right) & keyPressed) > 0)
-            {
-                player.MoveRight();
-                Thread.Sleep(20);
+                if ((GetKeyState(left) & keyPressed) > 0)
+                {
+                    player.MoveLeft();
+                    Thread.Sleep(20);
+                }
+
+                if ((GetKeyState(right) & keyPressed) > 0)
+                {
+                    player.MoveRight();
+                    Thread.Sleep(20);
+                }
             }
         }
 
